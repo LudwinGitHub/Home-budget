@@ -17,9 +17,9 @@
     <h1>Budżet domowy</h1>
     <section class="summary">
         <h2>Podsumowanie</h2>
-        <p>Wpływy: ${requestScope.incomeSum}zł</p>
-        <p>Wydatki: ${requestScope.expensesSum}zł</p>
-        <p>Bilans: ${requestScope.balance}zł</p>
+        <p>Wpływy: ${requestScope.summary.incomes}zł</p>
+        <p>Wydatki: ${requestScope.summary.expenses}zł</p>
+        <p>Bilans: ${requestScope.summary.balance}zł</p>
     </section>
     <a href="${pageContext.request.contextPath}/add">Dodaj wpływ lub wydatek</a>
     <c:if test="${not empty requestScope.incomes}">

@@ -10,26 +10,15 @@ import java.util.List;
 
 @WebServlet("")
 public class HomeController extends HttpServlet {
-    private BudgetItemDao budgetItemDao = new BudgetItemDao();
+    private BudgetService budgetService = new BudgetService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<BudgetItem> incomes = budgetItemDao.findAllItems(BudgetItemType.INCOME);
-        List<BudgetItem> expenses = budgetItemDao.findAllItems(BudgetItemType.EXPENSE);
-        BigDecimal incomesSum = getSum(incomes);
-        BigDecimal expensesSum = getSum(expenses);
-        BigDecimal balance = incomesSum.subtract(expensesSum);
+        List<BudgetItemDTO> incomes = budgetService.findAllIncomes();
+        List<BudgetItemDTO> expenses = budgetService.findAllExpenses();
+        BudgetSummaryDTO summary = budgetService.getSummary();
         request.setAttribute("incomes", incomes);
         request.setAttribute("expenses", expenses);
-        request.setAttribute("incomeSum", incomesSum);
-        request.setAttribute("expensesSum", expensesSum);
-        request.setAttribute("balance", balance);
+        request.setAttribute("summary", summary);
         request.getRequestDispatcher("/WEB-INF/index.jsp").forward(request, response);
-
-    }
-    private BigDecimal getSum(List<BudgetItem> items){
-        return items.stream()
-                .map(BudgetItem::getValue)
-                .reduce(BigDecimal::add)
-                .orElse(BigDecimal.ZERO);
     }
 }

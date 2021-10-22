@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 public class BudgetService {
     private BudgetItemDao budgetItemDao = new BudgetItemDao();
 
-    private void addIncome(BudgetItemDTO budgetItem){
+    public void addIncome(BudgetItemDTO budgetItem){
         addBudgetItem(budgetItem, BudgetItemType.INCOME);
     }
-    private void addExpense(BudgetItemDTO budgetItem){
+    public void addExpense(BudgetItemDTO budgetItem){
         addBudgetItem(budgetItem, BudgetItemType.EXPENSE);
     }
 

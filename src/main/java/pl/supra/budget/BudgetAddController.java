@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 
 @WebServlet("/add")
 public class BudgetAddController extends HttpServlet {
-    private BudgetItemDao budgetItemDao = new BudgetItemDao();
+    private BudgetService budgetService = new BudgetService();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/WEB-INF/addform.jsp").forward(request, response);
@@ -20,8 +20,11 @@ public class BudgetAddController extends HttpServlet {
         String description = request.getParameter("description");
         BigDecimal value = new BigDecimal(request.getParameter("value"));
         BudgetItemType type = BudgetItemType.valueOf(request.getParameter("type"));
-        BudgetItem budgetItem = new BudgetItem(description, value, type);
-        budgetItemDao.save(budgetItem);
+        BudgetItemDTO budgetItem = new BudgetItemDTO(description, value);
+        if (type == BudgetItemType.EXPENSE)
+            budgetService.addExpense(budgetItem);
+        else if (type == BudgetItemType.INCOME)
+            budgetService.addIncome(budgetItem);
         response.sendRedirect(request.getContextPath() + "/");
     }
 }
